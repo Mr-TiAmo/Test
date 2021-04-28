@@ -1,4 +1,4 @@
-package com.li.demo.day01.model;
+package com.li.demo.model;
 
 /**
  * @program: Test

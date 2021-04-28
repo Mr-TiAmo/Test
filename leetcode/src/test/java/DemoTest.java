@@ -1,6 +1,8 @@
-import com.li.demo.day01.Demo;
-import com.li.demo.day01.model.ListNode;
+import com.li.demo.model.Demo;
+import com.li.demo.model.ListNode;
 import org.junit.Test;
+
+import java.util.stream.IntStream;
 
 /**
  * @program: Test
@@ -34,6 +36,38 @@ public class DemoTest {
             System.out.println(temp.val);
             temp = temp.next;
         }
+    }
+
+    @Test
+    public void test2() {
+        IntStream.range(0,10).forEach(i -> System.out.println(i++));
+        System.out.println("------------------------------------");
+        IntStream.range(0,10).forEach(i -> System.out.println(++i));
+        System.out.println("------------------------------------");
+        for (int i = 0; i < 10; ++i) {
+            System.out.println(i);
+        }
+        System.out.println("------------------------------------");
+        for (int i = 0; i < 10; i++) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    public void test3() {
+//        String str = " ";
+//        String str = "aab";
+//        String str = "dvdf";
+//        String str = "a";
+//        String str = "abcabcd";
+        String str = "wkwsvwekw";
+        System.out.println(str.substring(0,0));
+        System.out.println(str.contains("w"));
+        System.out.println(str.contains("wk"));
+        System.out.println(str.contains("wsk"));
+        System.out.println(Demo.lengthOfLongestSubstring2(str));
+        System.out.println(Demo.lengthOfLongestSubstring1(str));
+        System.out.println(Demo.lengthOfLongestSubstring(str));
     }
 
 }
