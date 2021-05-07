@@ -40,9 +40,9 @@ public class DemoTest {
 
     @Test
     public void test2() {
-        IntStream.range(0,10).forEach(i -> System.out.println(i++));
+        IntStream.range(0, 10).forEach(i -> System.out.println(i++));
         System.out.println("------------------------------------");
-        IntStream.range(0,10).forEach(i -> System.out.println(++i));
+        IntStream.range(0, 10).forEach(i -> System.out.println(++i));
         System.out.println("------------------------------------");
         for (int i = 0; i < 10; ++i) {
             System.out.println(i);
@@ -61,13 +61,36 @@ public class DemoTest {
 //        String str = "a";
 //        String str = "abcabcd";
         String str = "wkwsvwekw";
-        System.out.println(str.substring(0,0));
+        System.out.println(str.substring(0, 0));
         System.out.println(str.contains("w"));
         System.out.println(str.contains("wk"));
         System.out.println(str.contains("wsk"));
         System.out.println(Demo.lengthOfLongestSubstring2(str));
         System.out.println(Demo.lengthOfLongestSubstring1(str));
         System.out.println(Demo.lengthOfLongestSubstring(str));
+    }
+
+    @Test
+    public void test6() {
+        System.out.println(2 / 2);
+        System.out.println(2 % 2);
+        System.out.println(5 / 2);
+        System.out.println(5 % 2);
+        System.out.println(0 % 2);
+        System.out.println(Double.valueOf(5D / 2));
+    }
+
+    @Test
+    public void test7() {
+//        int[] nums1 = new int[]{1, 3};
+//        int[] nums2 = new int[]{2};
+        int[] nums1 = new int[]{1,2};
+        int[] nums2 = new int[]{3,4};
+//        int[] nums1 = new int[]{0,0};
+//        int[] nums2 = new int[]{0,0};
+//        int[] nums1 = new int[]{3};
+//        int[] nums2 = new int[]{-2,-1};
+        System.out.println(Demo.findMedianSortedArrays(nums1,nums2));
     }
 
 }

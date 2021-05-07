@@ -138,12 +138,57 @@ public class Demo {
                 start = Math.max(map.get(c) + 1, start);
             }
             length = Math.max(length, i - start + 1);
-            map.put(c,i);
+            map.put(c, i);
         }
 
         return length;
     }
 
+    /**
+     * nums1 = [1,3], nums2 = [2] 合并数组 = [1,2,3] ，中位数 2
+     * nums1 = [1,2], nums2 = [3,4]  合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+     * nums1 = [0,0], nums2 = [0,0]  0.00000
+     * nums1 = [], nums2 = [1]   1.00000
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+        int length = nums1.length + nums2.length;
+        double n = 0;
+        int[] arrays = new int[length];
+        int n1 = 0, n2 = 0;
+        for (int i = 0; i < length; i++) {
+            if (n1 < nums1.length && n2 < nums2.length) {
+                if (nums1[n1] <= nums2[n2]) {
+                    arrays[i] = nums1[n1];
+                    n1++;
+                } else {
+                    arrays[i] = nums2[n2];
+                    n2++;
+                }
+            } else {
+                if (n2 < nums2.length) {
+                    arrays[i] = nums2[n2];
+                    n2++;
+                } else {
+                    arrays[i] = nums1[n1];
+                    n1++;
+                }
+            }
+        }
+        if (length % 2 == 0) {
+            //偶数 0,1,2,3, 0 1 2 3 4 5
+            n = Double.valueOf(arrays[length / 2] + arrays[length / 2 - 1]) / 2;
+        } else {
+            //奇数
+            n = Double.valueOf(arrays[length / 2]);
+        }
+
+        return n;
+    }
 
     public static void main(String[] args) {
         List<String> list = new ArrayList();
