@@ -2,10 +2,7 @@ package com.li.demo.model;
 
 import com.li.demo.model.ListNode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * @program: Test
@@ -188,6 +185,150 @@ public class Demo {
         }
 
         return n;
+    }
+
+    /**
+     * nums1 = [1,3], nums2 = [2] 合并数组 = [1,2,3] ，中位数 2
+     * nums1 = [1,2], nums2 = [3,4]  合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+     * nums1 = [0,0], nums2 = [0,0]  0.00000
+     * nums1 = [], nums2 = [1]   1.00000
+     * 中位数定义：当 m + n 为奇数是， 中位数为 第 (m+n) /2 个元素，当 m + n 为偶数是， 中位数为 第 (m+n) /2 个元素 和 第 (m+n) /2 +1个元素的平均值
+     * 即寻找 两个有序数组中第 k小的数， k为 第 (m+n) /2 个元素 或第 (m+n) /2 +1个元素
+     * 要找到第 k小的数，只需要比较 A[K/2 -1]和 B[K/2 -1],对于 A[k/2-1]A[k/2−1] 和 B[k/2-1]B[k/2−1] 中的较小值，
+     * 最多只会有 (k/2−1)+(k/2−1)≤k−2 个元素比它小，那么它就不能是第 k 小的数了
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public static double findMedianSortedArrays1(int[] nums1, int[] nums2) {
+        int length1 = nums1.length, length2 = nums2.length;
+        int totalLength = length1 + length2;
+        double median = 0D;
+        if (totalLength % 2 == 1) {
+            int midIndex = totalLength / 2;
+            median = getKthElement(nums1, nums2, midIndex + 1);
+        } else {
+            int midIndex1 = totalLength / 2 - 1, midIndex2 = totalLength / 2;
+            median = (getKthElement(nums1, nums2, midIndex1 + 1) + getKthElement(nums1, nums2, midIndex2 + 1)) / 2.0;
+        }
+        return median;
+    }
+
+    public static int getKthElement(int[] nums1, int[] nums2, int k) {
+        /* 主要思路：要找到第 k (k>1) 小的元素，那么就取 pivot1 = nums1[k/2-1] 和 pivot2 = nums2[k/2-1] 进行比较
+         * 这里的 "/" 表示整除
+         * nums1 中小于等于 pivot1 的元素有 nums1[0 .. k/2-2] 共计 k/2-1 个
+         * nums2 中小于等于 pivot2 的元素有 nums2[0 .. k/2-2] 共计 k/2-1 个
+         * 取 pivot = min(pivot1, pivot2)，两个数组中小于等于 pivot 的元素共计不会超过 (k/2-1) + (k/2-1) <= k-2 个
+         * 这样 pivot 本身最大也只能是第 k-1 小的元素
+         * 如果 pivot = pivot1，那么 nums1[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums1 数组
+         * 如果 pivot = pivot2，那么 nums2[0 .. k/2-1] 都不可能是第 k 小的元素。把这些元素全部 "删除"，剩下的作为新的 nums2 数组
+         * 由于我们 "删除" 了一些元素（这些元素都比第 k 小的元素要小），因此需要修改 k 的值，减去删除的数的个数
+         */
+
+        int length1 = nums1.length, length2 = nums2.length;
+        int index1 = 0, index2 = 0;
+        int kthElement = 0;
+
+        while (true) {
+            // 边界情况
+            if (index1 == length1) {
+                return nums2[index2 + k - 1];
+            }
+            if (index2 == length2) {
+                return nums1[index1 + k - 1];
+            }
+            if (k == 1) {
+                return Math.min(nums1[index1], nums2[index2]);
+            }
+
+            // 正常情况
+            int half = k / 2;
+            int newIndex1 = Math.min(index1 + half, length1) - 1;
+            int newIndex2 = Math.min(index2 + half, length2) - 1;
+            int pivot1 = nums1[newIndex1], pivot2 = nums2[newIndex2];
+            if (pivot1 <= pivot2) {
+                k -= (newIndex1 - index1 + 1);
+                index1 = newIndex1 + 1;
+            } else {
+                k -= (newIndex2 - index2 + 1);
+                index2 = newIndex2 + 1;
+            }
+        }
+    }
+
+    public String longestPalindrome(String s) {
+        String str = "";
+
+        return str;
+    }
+
+    /**
+     * 二叉树的根节点 root ，返回它节点值的 前序遍历
+     * 根左右
+     * @param root
+     * @return
+     */
+    public static List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> num = new ArrayList<>();
+        preorder(root, num);
+        return num;
+
+    }
+    /**
+     * 递归
+     * @param root
+     * @param num
+     */
+    public static void preorder(TreeNode root, List<Integer> num) {
+        if (root != null) {
+            num.add(root.getValue());
+            preorder(root.getLeft(), num);
+            preorder(root.getRight(), num);
+        }
+    }
+
+    /**
+     * 二叉树的根节点 root ，返回它节点值的 中序遍历
+     * 左根右
+     * @param root
+     * @return
+     */
+    public static List<Integer> midOrderTraversal(TreeNode root) {
+        List<Integer> num = new ArrayList<>();
+        midOrder(root, num);
+        return num;
+    }
+    public static void midOrder(TreeNode root, List<Integer> num) {
+        if(root != null) {
+            midOrder(root.getLeft(),num);
+            num.add(root.getValue());
+            midOrder(root.getRight(),num);
+        }
+    }
+
+    /**
+     * 二叉树的根节点 root ，返回它节点值的 层次遍历
+     *
+     * @param root
+     * @return
+     */
+    public static List<Integer> levelOrderTraversal(TreeNode root) {
+        List<Integer> num = new ArrayList<>();
+        levelOrder(root, num);
+        return num;
+    }
+    public static void levelOrder(TreeNode root, List<Integer> num) {
+        Queue queue = new LinkedList<TreeNode>();
+        if(root != null) {
+            queue.offer(root);
+            num.add(root.getValue());
+            levelOrder(root.getLeft(),num);
+            queue.poll();
+            levelOrder(root.getRight(),num);
+        }
+        queue.poll();
     }
 
     public static void main(String[] args) {
