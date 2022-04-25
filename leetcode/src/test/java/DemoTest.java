@@ -122,8 +122,6 @@ public class DemoTest {
         System.out.println(Demo.preorderTraversal(treeNode1));
         System.out.println(Demo.midOrderTraversal(treeNode1));
 //commit 未push  测试
-
-
         System.out.println(Demo.levelOrderTraversal(treeNode1));
     }
 }
